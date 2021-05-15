@@ -5,7 +5,6 @@ import io.qameta.allure.Description;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.json.simple.JSONObject;
 
 import static cloud.autotests.api.LogFilter.filters;
 import static cloud.autotests.helpers.JsonHelper.createJSON;
@@ -32,26 +31,94 @@ public class DoRegisterTests extends TestBase {
 
     @Test
     @Description("Check doRegister method")
-    @DisplayName("TestBase Autotests")
-    void doRegister() {
-        step("send post", () -> {
+    @DisplayName("Test with all fields - success")
+    void doRegisterSuccess() {
+        step("Send post with all fields", () -> {
             given()
                     .filter(filters().withCustomTemplates())
                     .body(createJSON(email, name, password))
-                    .when()
+            .when()
                     .post("/tasks/rest/doregister")
-                    .then()
+            .then()
                     .statusCode(200)
                     .log().body()
-            .body("name", is(name))
-            .body("email", is(email))
-            .body("avatar", is("http://users.bugred.ru//tmp/default_avatar.jpg"))
-            .body("password", is(notNullValue()));
+                    .body("name", is(name))
+                    .body("email", is(email))
+                    .body("avatar", is("http://users.bugred.ru//tmp/default_avatar.jpg"))
+                    .body("password", is(notNullValue()));
         });
-
-//        step(" ", () -> {
-//            // todo just add selenium action
-//        });
-
     }
+
+    @Test
+    @Description("Check doRegister method")
+    @DisplayName("Test without email")
+    void doRegisterWithoutEmail() {
+        step("Send post without email", () -> {
+            given()
+                    .filter(filters().withCustomTemplates())
+                    .body(createJSON("", name, password))
+            .when()
+                    .post("/tasks/rest/doregister")
+            .then()
+                    .statusCode(200)
+                    .log().body()
+                    .body("type", is("error"))
+                    .body("message", is(" Некоректный  email "));
+        });
+    }
+
+    @Test
+    @Description("Check doRegister method")
+    @DisplayName("Test without name")
+    void doRegisterWithoutName() {
+        step("Send post without name", () -> {
+            given()
+                    .filter(filters().withCustomTemplates())
+                    .body(createJSON(email, "", password))
+            .when()
+                    .post("/tasks/rest/doregister")
+            .then()
+                    .statusCode(200)
+                    .log().body()
+                    .body("type", is("error"))
+                    .body("message", is("поле фио является обязательным"));
+        });
+    }
+
+    @Test
+    @Description("Check doRegister method")
+    @DisplayName("Test without password")
+    void doRegisterWithoutPassword() {
+        step("Send post without password", () -> {
+            given()
+                    .filter(filters().withCustomTemplates())
+                    .body(createJSON(email, name, ""))
+            .when()
+                    .post("/tasks/rest/doregister")
+            .then()
+                    .statusCode(200)
+                    .log().body()
+                    .body("type", is("error"))
+                    .body("message", is("поле пароль является обязательным"));
+        });
+    }
+
+    @Test
+    @Description("Check doRegister method")
+    @DisplayName("Test empty json")
+    void doRegisterEmptyJson() {
+        step("Send post without json", () -> {
+            given()
+                    .filter(filters().withCustomTemplates())
+                    .body("")
+            .when()
+                    .post("/tasks/rest/doregister")
+            .then()
+                    .statusCode(200)
+                    .log().body()
+                    .body("type", is("error"))
+                    .body("message", is("Параметр email является обязательным!"));
+        });
+    }
+
 }

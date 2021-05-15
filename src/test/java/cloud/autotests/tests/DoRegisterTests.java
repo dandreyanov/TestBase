@@ -45,7 +45,7 @@ public class DoRegisterTests extends TestBase {
                     .log().body()
             .body("name", is(name))
             .body("email", is(email))
-            .body("avatar", is("\"http://users.bugred.ru//tmp/default_avatar.jpg\""))
+            .body("avatar", is("http://users.bugred.ru//tmp/default_avatar.jpg"))
             .body("password", is(notNullValue()));
         });
 

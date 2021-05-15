@@ -1,11 +1,11 @@
-package cloud.autotests.config.demowebshop;
+package testbase.config;
 
 import org.aeonbits.owner.Config;
 
 @Config.LoadPolicy(Config.LoadType.MERGE)
 @Config.Sources({
         "system:properties",
-        "classpath:config/demowebshop/testdata.properties"
+        "classpath:config/testdata.properties"
 })
 public interface TestDataConfig extends Config {
     @Key("web.url")

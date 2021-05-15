@@ -1,4 +1,4 @@
-package cloud.autotests.helpers;
+package testbase.helpers;
 
 import org.json.simple.JSONObject;
 

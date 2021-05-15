@@ -1,32 +1,32 @@
-package cloud.autotests.tests;
+package testbase.tests;
 
 import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
+import testbase.helpers.DriverHelper;
 
-import static cloud.autotests.helpers.AttachmentsHelper.*;
-import static cloud.autotests.helpers.DriverHelper.*;
+import static testbase.helpers.AttachmentsHelper.*;
 import static com.codeborne.selenide.WebDriverRunner.closeWebDriver;
 
 @ExtendWith({AllureJunit5.class})
 public class TestBase {
     @BeforeAll
     static void setUp() {
-        configureDriver();
+        DriverHelper.configureDriver();
     }
 
     @AfterEach
     public void addAttachments(){
-        String sessionId = getSessionId();
+        String sessionId = DriverHelper.getSessionId();
 
         attachScreenshot("Last screenshot");
         attachPageSource();
 //        attachNetwork(); // todo
-        attachAsText("Browser console logs", getConsoleLogs());
+        attachAsText("Browser console logs", DriverHelper.getConsoleLogs());
 
         closeWebDriver();
 
-        if (isVideoOn()) attachVideo(sessionId);
+        if (DriverHelper.isVideoOn()) attachVideo(sessionId);
     }
 }

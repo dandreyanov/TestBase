@@ -1,13 +1,13 @@
-package cloud.autotests.tests;
+package testbase.tests;
 
 import com.github.javafaker.Faker;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testbase.helpers.JsonHelper;
 
-import static cloud.autotests.api.LogFilter.filters;
-import static cloud.autotests.helpers.JsonHelper.createJSON;
+import static testbase.api.LogFilter.filters;
 import static com.codeborne.selenide.Selenide.open;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
@@ -36,7 +36,7 @@ public class DoRegisterTests extends TestBase {
         step("Send post with all fields", () -> {
             given()
                     .filter(filters().withCustomTemplates())
-                    .body(createJSON(email, name, password))
+                    .body(JsonHelper.createJSON(email, name, password))
             .when()
                     .post("/tasks/rest/doregister")
             .then()
@@ -56,7 +56,7 @@ public class DoRegisterTests extends TestBase {
         step("Send post without email", () -> {
             given()
                     .filter(filters().withCustomTemplates())
-                    .body(createJSON("", name, password))
+                    .body(JsonHelper.createJSON("", name, password))
             .when()
                     .post("/tasks/rest/doregister")
             .then()
@@ -74,7 +74,7 @@ public class DoRegisterTests extends TestBase {
         step("Send post without name", () -> {
             given()
                     .filter(filters().withCustomTemplates())
-                    .body(createJSON(email, "", password))
+                    .body(JsonHelper.createJSON(email, "", password))
             .when()
                     .post("/tasks/rest/doregister")
             .then()
@@ -92,7 +92,7 @@ public class DoRegisterTests extends TestBase {
         step("Send post without password", () -> {
             given()
                     .filter(filters().withCustomTemplates())
-                    .body(createJSON(email, name, ""))
+                    .body(JsonHelper.createJSON(email, name, ""))
             .when()
                     .post("/tasks/rest/doregister")
             .then()

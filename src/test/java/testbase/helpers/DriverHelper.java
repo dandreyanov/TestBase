@@ -1,9 +1,8 @@
-package cloud.autotests.helpers;
+package testbase.helpers;
 
-import cloud.autotests.tests.demowebshop.TestData;
+import testbase.tests.TestData;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import cloud.autotests.config.DriverConfig;
+import testbase.config.DriverConfig;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.RestAssured;
 import org.aeonbits.owner.ConfigFactory;

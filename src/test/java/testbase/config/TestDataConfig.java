@@ -8,16 +8,6 @@ import org.aeonbits.owner.Config;
         "classpath:config/testdata.properties"
 })
 public interface TestDataConfig extends Config {
-    @Key("web.url")
-    String webUrl();
-
     @Key("api.url")
     String apiUrl();
-
-    @Key("user.login")
-    String userLogin();
-
-    @Key("user.password")
-    String userPassword();
-
 }

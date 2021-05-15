@@ -8,19 +8,8 @@ public class TestData {
         return ConfigFactory.newInstance().create(TestDataConfig.class, System.getProperties());
     }
 
-    public static String getWebUrl() {
-        return getTestData().webUrl();
-    }
-
     public static String getApiUrl() {
         return getTestData().apiUrl();
     }
 
-    public static String getUserLogin() {
-        return getTestData().userLogin();
-    }
-
-    public static String getUserPassword() {
-        return getTestData().userPassword();
-    }
 }

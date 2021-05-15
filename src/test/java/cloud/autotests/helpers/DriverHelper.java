@@ -1,9 +1,11 @@
 package cloud.autotests.helpers;
 
+import cloud.autotests.tests.demowebshop.TestData;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import cloud.autotests.config.DriverConfig;
 import io.qameta.allure.selenide.AllureSelenide;
+import io.restassured.RestAssured;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -67,6 +69,7 @@ public class DriverHelper {
         Configuration.browser = getDriverConfig().webBrowser();
         Configuration.browserVersion = getDriverConfig().webBrowserVersion();
         Configuration.browserSize = getDriverConfig().webBrowserSize();
+        RestAssured.baseURI = TestData.getApiUrl();
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
 

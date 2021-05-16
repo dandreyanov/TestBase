@@ -41,7 +41,7 @@ public class CreateCompanyTests extends TestBase {
         step("Create first user", () -> {
             given().urlEncodingEnabled(true)
                     .filter(filters().withCustomTemplates())
-                    .contentType("application/json")
+                    .contentType("application/json;charset=UTF-8")
                     .body(JsonHelper.createJSONdoRegister(requestFirst))
                     .when()
                     .post("/tasks/rest/doregister")
@@ -51,6 +51,7 @@ public class CreateCompanyTests extends TestBase {
         step("Create second user", () -> {
             given().urlEncodingEnabled(true)
                     .filter(filters().withCustomTemplates())
+                    .contentType("application/json;charset=UTF-8")
                     .body(JsonHelper.createJSONdoRegister(requestSecond))
                     .when()
                     .post("/tasks/rest/doregister")
@@ -60,6 +61,7 @@ public class CreateCompanyTests extends TestBase {
         step("Create owner", () -> {
             given()
                     .filter(filters().withCustomTemplates())
+                    .contentType("application/json;charset=UTF-8")
                     .body(JsonHelper.createJSONdoRegister(requestOwner))
                     .when()
                     .post("/tasks/rest/doregister")
@@ -76,6 +78,7 @@ public class CreateCompanyTests extends TestBase {
         step("Send post with all fields", () -> {
             given().urlEncodingEnabled(true)
                     .filter(filters().withCustomTemplates())
+                    .contentType("application/json;charset=UTF-8")
                     .body(JsonHelper.createJSONcreateCompany(company_name,
                             company_type,
                             firstCompanyUsers,
@@ -99,6 +102,7 @@ public class CreateCompanyTests extends TestBase {
         step("Send post without name", () -> {
             given().urlEncodingEnabled(true)
                     .filter(filters().withCustomTemplates())
+                    .contentType("application/json;charset=UTF-8")
                     .body(JsonHelper.createJSONcreateCompany("",
                             company_type,
                             firstCompanyUsers,
@@ -121,6 +125,7 @@ public class CreateCompanyTests extends TestBase {
         step("Send post without company type", () -> {
             given().urlEncodingEnabled(true)
                     .filter(filters().withCustomTemplates())
+                    .contentType("application/json;charset=UTF-8")
                     .body(JsonHelper.createJSONcreateCompany(company_name,
                             "",
                             firstCompanyUsers,
@@ -143,6 +148,7 @@ public class CreateCompanyTests extends TestBase {
         step("Send post without company users", () -> {
             given().urlEncodingEnabled(true)
                     .filter(filters().withCustomTemplates())
+                    .contentType("application/json;charset=UTF-8")
                     .body(JsonHelper.createJSONcreateCompany(company_name,
                             company_type,
                             "",
@@ -165,6 +171,7 @@ public class CreateCompanyTests extends TestBase {
         step("Send post without company owner", () -> {
             given().urlEncodingEnabled(true)
                     .filter(filters().withCustomTemplates())
+                    .contentType("application/json;charset=UTF-8")
                     .body(JsonHelper.createJSONcreateCompany(company_name,
                             company_type,
                             firstCompanyUsers,

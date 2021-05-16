@@ -30,6 +30,7 @@ public class DoRegisterTests extends TestBase {
     name = faker.name().fullName(),
     password = faker.internet().password();
 
+
     @BeforeEach
     public void beforeFunction() {
         open("");
@@ -40,10 +41,13 @@ public class DoRegisterTests extends TestBase {
     @Description("Check doRegister method")
     @DisplayName("Test with all fields - success")
     void doRegisterSuccess() {
+        String request[][] = {{"email", email}, {"name", name}, {"password", password}};
+
         step("Send post with all fields", () -> {
             given()
                     .filter(filters().withCustomTemplates())
-                    .body(JsonHelper.createJSONdoRegister(email, name, password))
+                    .body(JsonHelper.createJSONdoRegister(request))
+//                    .body(JsonHelper.createJSONdoRegister(email, name, password))
             .when()
                     .post("/tasks/rest/doregister")
             .then()
@@ -61,16 +65,18 @@ public class DoRegisterTests extends TestBase {
     @DisplayName("Test without email")
     void doRegisterWithoutEmail() {
         step("Send post without email", () -> {
+            String request[][] = {{"name", name}, {"password", password}};
+
             given()
                     .filter(filters().withCustomTemplates())
-                    .body(JsonHelper.createJSONdoRegister(" ", name, password))
+                    .body(JsonHelper.createJSONdoRegister(request))
             .when()
                     .post("/tasks/rest/doregister")
             .then()
                     .statusCode(200)
                     .log().body()
                     .body("type", is("error"))
-                    .body("message", is(" Некоректный  email "));
+                    .body("message", is("Параметр email является обязательным!"));
         });
     }
 
@@ -78,17 +84,18 @@ public class DoRegisterTests extends TestBase {
     @Description("Check doRegister method")
     @DisplayName("Test without name")
     void doRegisterWithoutName() {
+        String request[][] = {{"email", email},  {"password", password}};
         step("Send post without name", () -> {
             given()
                     .filter(filters().withCustomTemplates())
-                    .body(JsonHelper.createJSONdoRegister(email, " ", password))
+                    .body(JsonHelper.createJSONdoRegister(request))
             .when()
                     .post("/tasks/rest/doregister")
             .then()
                     .statusCode(200)
                     .log().body()
                     .body("type", is("error"))
-                    .body("message", is("поле фио является обязательным"));
+                    .body("message", is("Параметр name является обязательным!"));
         });
     }
 
@@ -96,17 +103,18 @@ public class DoRegisterTests extends TestBase {
     @Description("Check doRegister method")
     @DisplayName("Test without password")
     void doRegisterWithoutPassword() {
+        String request[][] = {{"email", email},  {"name", name}};
         step("Send post without password", () -> {
             given()
                     .filter(filters().withCustomTemplates())
-                    .body(JsonHelper.createJSONdoRegister(email, name, " "))
+                    .body(JsonHelper.createJSONdoRegister(request))
             .when()
                     .post("/tasks/rest/doregister")
             .then()
                     .statusCode(200)
                     .log().body()
                     .body("type", is("error"))
-                    .body("message", is("поле пароль является обязательным"));
+                    .body("message", is("Параметр password является обязательным!"));
         });
     }
 
@@ -117,7 +125,7 @@ public class DoRegisterTests extends TestBase {
         step("Send post without json", () -> {
             given()
                     .filter(filters().withCustomTemplates())
-                    .body("")
+                    .body("{}")
             .when()
                     .post("/tasks/rest/doregister")
             .then()

@@ -56,12 +56,15 @@ public class CreateCompanyTests extends TestBase {
         Random random = new Random();
         int index = random.nextInt(companyTypeArray.length);
         String company_type = companyTypeArray[index];
+        String requestFirst[][] = {{"email", firstCompanyUsers},  {"name", name}, {"password", password}};
+        String requestSecond[][] = {{"email", secondCompanyUsers},  {"name", name}, {"password", password}};
+        String requestOwner[][] = {{"email", emailOwner},  {"name", name}, {"password", password}};
 
         step("Create first user", () -> {
             given()
                     .filter(filters().withCustomTemplates())
                     .contentType("application/json")
-                    .body(JsonHelper.createJSONdoRegister(firstCompanyUsers, name, password))
+                    .body(JsonHelper.createJSONdoRegister(requestFirst))
                     .when()
                     .post("/tasks/rest/doregister")
                     .then()
@@ -70,7 +73,7 @@ public class CreateCompanyTests extends TestBase {
         step("Create second user", () -> {
             given()
                     .filter(filters().withCustomTemplates())
-                    .body(JsonHelper.createJSONdoRegister(secondCompanyUsers, name, password))
+                    .body(JsonHelper.createJSONdoRegister(requestSecond))
                     .when()
                     .post("/tasks/rest/doregister")
                     .then()
@@ -79,7 +82,7 @@ public class CreateCompanyTests extends TestBase {
         step("Create owner", () -> {
             given()
                     .filter(filters().withCustomTemplates())
-                    .body(JsonHelper.createJSONdoRegister(emailOwner, name, password))
+                    .body(JsonHelper.createJSONdoRegister(requestOwner))
                     .when()
                     .post("/tasks/rest/doregister")
                     .then()

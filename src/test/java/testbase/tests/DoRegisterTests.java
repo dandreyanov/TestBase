@@ -63,7 +63,7 @@ public class DoRegisterTests extends TestBase {
         step("Send post without email", () -> {
             given()
                     .filter(filters().withCustomTemplates())
-                    .body(JsonHelper.createJSONdoRegister("", name, password))
+                    .body(JsonHelper.createJSONdoRegister(" ", name, password))
             .when()
                     .post("/tasks/rest/doregister")
             .then()
@@ -81,7 +81,7 @@ public class DoRegisterTests extends TestBase {
         step("Send post without name", () -> {
             given()
                     .filter(filters().withCustomTemplates())
-                    .body(JsonHelper.createJSONdoRegister(email, "", password))
+                    .body(JsonHelper.createJSONdoRegister(email, " ", password))
             .when()
                     .post("/tasks/rest/doregister")
             .then()
@@ -99,7 +99,7 @@ public class DoRegisterTests extends TestBase {
         step("Send post without password", () -> {
             given()
                     .filter(filters().withCustomTemplates())
-                    .body(JsonHelper.createJSONdoRegister(email, name, ""))
+                    .body(JsonHelper.createJSONdoRegister(email, name, " "))
             .when()
                     .post("/tasks/rest/doregister")
             .then()

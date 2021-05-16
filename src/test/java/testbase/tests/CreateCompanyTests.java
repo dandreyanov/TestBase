@@ -39,7 +39,7 @@ public class CreateCompanyTests extends TestBase {
     public void beforeFunction() {
         open("");
         step("Create first user", () -> {
-            given()
+            given().urlEncodingEnabled(true)
                     .filter(filters().withCustomTemplates())
                     .contentType("application/json")
                     .body(JsonHelper.createJSONdoRegister(requestFirst))
@@ -49,7 +49,7 @@ public class CreateCompanyTests extends TestBase {
                     .statusCode(200);
         });
         step("Create second user", () -> {
-            given()
+            given().urlEncodingEnabled(true)
                     .filter(filters().withCustomTemplates())
                     .body(JsonHelper.createJSONdoRegister(requestSecond))
                     .when()
@@ -74,7 +74,7 @@ public class CreateCompanyTests extends TestBase {
     @DisplayName("Test with all fields - success")
     void createCompanySuccess() {
         step("Send post with all fields", () -> {
-            given()
+            given().urlEncodingEnabled(true)
                     .filter(filters().withCustomTemplates())
                     .body(JsonHelper.createJSONcreateCompany(company_name,
                             company_type,
@@ -97,7 +97,7 @@ public class CreateCompanyTests extends TestBase {
     @DisplayName("Test without company name")
     void createCompanyWithoutCompanyName() {
         step("Send post without name", () -> {
-            given()
+            given().urlEncodingEnabled(true)
                     .filter(filters().withCustomTemplates())
                     .body(JsonHelper.createJSONcreateCompany("",
                             company_type,
@@ -119,7 +119,7 @@ public class CreateCompanyTests extends TestBase {
     @DisplayName("Test without company type")
     void createCompanyWithoutCompanyType() {
         step("Send post without company type", () -> {
-            given()
+            given().urlEncodingEnabled(true)
                     .filter(filters().withCustomTemplates())
                     .body(JsonHelper.createJSONcreateCompany(company_name,
                             "",
@@ -141,7 +141,7 @@ public class CreateCompanyTests extends TestBase {
     @DisplayName("Test without company users")
     void createCompanyWithoutCompanyUsers() {
         step("Send post without company users", () -> {
-            given()
+            given().urlEncodingEnabled(true)
                     .filter(filters().withCustomTemplates())
                     .body(JsonHelper.createJSONcreateCompany(company_name,
                             company_type,
@@ -163,7 +163,7 @@ public class CreateCompanyTests extends TestBase {
     @DisplayName("Test without company owner")
     void createCompanyWithoutCompanyOwner() {
         step("Send post without company owner", () -> {
-            given()
+            given().urlEncodingEnabled(true)
                     .filter(filters().withCustomTemplates())
                     .body(JsonHelper.createJSONcreateCompany(company_name,
                             company_type,

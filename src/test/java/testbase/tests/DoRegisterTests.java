@@ -7,12 +7,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testbase.helpers.JsonHelper;
 
-import static testbase.api.LogFilter.filters;
 import static com.codeborne.selenide.Selenide.open;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static testbase.api.LogFilter.filters;
 
 
 public class DoRegisterTests extends TestBase {
@@ -27,8 +27,8 @@ public class DoRegisterTests extends TestBase {
     Faker faker = new Faker();
 
     String email = faker.internet().emailAddress(),
-    name = faker.name().fullName(),
-    password = faker.internet().password();
+            name = faker.name().fullName(),
+            password = faker.internet().password();
 
 
     @BeforeEach
@@ -47,10 +47,9 @@ public class DoRegisterTests extends TestBase {
             given()
                     .filter(filters().withCustomTemplates())
                     .body(JsonHelper.createJSONdoRegister(request))
-//                    .body(JsonHelper.createJSONdoRegister(email, name, password))
-            .when()
+                    .when()
                     .post("/tasks/rest/doregister")
-            .then()
+                    .then()
                     .statusCode(200)
                     .log().body()
                     .body("name", is(name))
@@ -70,9 +69,9 @@ public class DoRegisterTests extends TestBase {
             given()
                     .filter(filters().withCustomTemplates())
                     .body(JsonHelper.createJSONdoRegister(request))
-            .when()
+                    .when()
                     .post("/tasks/rest/doregister")
-            .then()
+                    .then()
                     .statusCode(200)
                     .log().body()
                     .body("type", is("error"))
@@ -84,14 +83,14 @@ public class DoRegisterTests extends TestBase {
     @Description("Check doRegister method")
     @DisplayName("Test without name")
     void doRegisterWithoutName() {
-        String request[][] = {{"email", email},  {"password", password}};
+        String request[][] = {{"email", email}, {"password", password}};
         step("Send post without name", () -> {
             given()
                     .filter(filters().withCustomTemplates())
                     .body(JsonHelper.createJSONdoRegister(request))
-            .when()
+                    .when()
                     .post("/tasks/rest/doregister")
-            .then()
+                    .then()
                     .statusCode(200)
                     .log().body()
                     .body("type", is("error"))
@@ -103,14 +102,14 @@ public class DoRegisterTests extends TestBase {
     @Description("Check doRegister method")
     @DisplayName("Test without password")
     void doRegisterWithoutPassword() {
-        String request[][] = {{"email", email},  {"name", name}};
+        String request[][] = {{"email", email}, {"name", name}};
         step("Send post without password", () -> {
             given()
                     .filter(filters().withCustomTemplates())
                     .body(JsonHelper.createJSONdoRegister(request))
-            .when()
+                    .when()
                     .post("/tasks/rest/doregister")
-            .then()
+                    .then()
                     .statusCode(200)
                     .log().body()
                     .body("type", is("error"))
@@ -126,9 +125,9 @@ public class DoRegisterTests extends TestBase {
             given()
                     .filter(filters().withCustomTemplates())
                     .body("{}")
-            .when()
+                    .when()
                     .post("/tasks/rest/doregister")
-            .then()
+                    .then()
                     .statusCode(200)
                     .log().body()
                     .body("type", is("error"))

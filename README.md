@@ -11,5 +11,5 @@
     
 [**Jenkins**](https://jenkins.autotests.cloud/job/C04-enizz-testbase/)
 ![jen](img/jenkins.png)
-[**Allure Report**](https://jenkins.autotests.cloud/job/C04-enizz-testbase/26/allure/)
+[**Allure Report**](https://jenkins.autotests.cloud/job/C04-enizz-testbase/32/allure/)
 ![allure](img/allure.png)    

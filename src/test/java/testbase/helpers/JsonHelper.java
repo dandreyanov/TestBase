@@ -13,7 +13,6 @@ public class JsonHelper {
                 resultJson.put(request[i][j], request[i][j + 1]);
             }
         }
-        System.out.println(resultJson);
         return resultJson;
     }
 
@@ -27,6 +26,7 @@ public class JsonHelper {
         resultJson.put("email_owner", emailOwner);
         resultJson.put("company_users", companiesArr);
 
+        System.out.println(resultJson);
         return (resultJson);
     }
 

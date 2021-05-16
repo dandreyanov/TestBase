@@ -40,26 +40,18 @@ public class CreateCompanyTests extends TestBase {
             name = faker.name().fullName(),
             password = faker.internet().password();
 
+    //выбираем рандомный тип компании
+    final String[] companyTypeArray = {"ИП", "ООО", "ОАО"};
+    Random random = new Random();
+    int index = random.nextInt(companyTypeArray.length);
+    String company_type = companyTypeArray[index];
+    String requestFirst[][] = {{"email", firstCompanyUsers},  {"name", name}, {"password", password}};
+    String requestSecond[][] = {{"email", secondCompanyUsers},  {"name", name}, {"password", password}};
+    String requestOwner[][] = {{"email", emailOwner},  {"name", name}, {"password", password}};
+
     @BeforeEach
     public void beforeFunction() {
         open("");
-    }
-
-
-    @Test
-    @Description("Check createCompany method")
-    @DisplayName("Test with all fields - success")
-    void createCompanySuccess() {
-
-        //выбираем рандомный тип компании
-        final String[] companyTypeArray = {"ИП", "ООО", "ОАО"};
-        Random random = new Random();
-        int index = random.nextInt(companyTypeArray.length);
-        String company_type = companyTypeArray[index];
-        String requestFirst[][] = {{"email", firstCompanyUsers},  {"name", name}, {"password", password}};
-        String requestSecond[][] = {{"email", secondCompanyUsers},  {"name", name}, {"password", password}};
-        String requestOwner[][] = {{"email", emailOwner},  {"name", name}, {"password", password}};
-
         step("Create first user", () -> {
             given()
                     .filter(filters().withCustomTemplates())
@@ -88,6 +80,14 @@ public class CreateCompanyTests extends TestBase {
                     .then()
                     .statusCode(200);
         });
+    }
+
+
+
+    @Test
+    @Description("Check createCompany method")
+    @DisplayName("Test with all fields - success")
+    void createCompanySuccess() {
         step("Send post with all fields", () -> {
             given()
                     .filter(filters().withCustomTemplates())
@@ -100,8 +100,100 @@ public class CreateCompanyTests extends TestBase {
                     .post("/tasks/rest/createcompany")
                     .then()
                     .statusCode(200)
-                    .log().body();
+                    .log().body()
+                    .body("type", is("success"))
+                    .body("company.name", is(company_name))
+                    .body("company.type", is(company_type));
         });
     }
+
+    @Test
+    @Description("Check createCompany method")
+    @DisplayName("Test without company name")
+    void createCompanyWithoutCompanyName() {
+        step("Send post without name", () -> {
+            given()
+                    .filter(filters().withCustomTemplates())
+                    .body(JsonHelper.createJSONcreateCompany("",
+                            company_type,
+                            firstCompanyUsers,
+                            secondCompanyUsers,
+                            "mariano.wiza@gmail.com"))
+                    .when()
+                    .post("/tasks/rest/createcompany")
+                    .then()
+                    .statusCode(200)
+                    .log().body()
+                    .body("type", is("error"))
+                    .body("message", is(" company_name некорректный"));
+        });
+    }
+
+    @Test
+    @Description("Check createCompany method")
+    @DisplayName("Test without company type")
+    void createCompanyWithoutCompanyType() {
+        step("Send post without company type", () -> {
+            given()
+                    .filter(filters().withCustomTemplates())
+                    .body(JsonHelper.createJSONcreateCompany(company_name,
+                            "",
+                            firstCompanyUsers,
+                            secondCompanyUsers,
+                            "mariano.wiza@gmail.com"))
+                    .when()
+                    .post("/tasks/rest/createcompany")
+                    .then()
+                    .statusCode(200)
+                    .log().body()
+                    .body("type", is("error"))
+                    .body("message", is(" company_type  некорректный"));
+        });
+    }
+
+    @Test
+    @Description("Check createCompany method")
+    @DisplayName("Test without company users")
+    void createCompanyWithoutCompanyUsers() {
+        step("Send post without company users", () -> {
+            given()
+                    .filter(filters().withCustomTemplates())
+                    .body(JsonHelper.createJSONcreateCompany(company_name,
+                            company_type,
+                            "",
+                            "",
+                            "mariano.wiza@gmail.com"))
+                    .when()
+                    .post("/tasks/rest/createcompany")
+                    .then()
+                    .statusCode(200)
+                    .log().body()
+                    .body("type", is("error"))
+                    .body("message", is(" company_users  не указаны сотрудники"));
+        });
+    }
+
+    @Test
+    @Description("Check createCompany method")
+    @DisplayName("Test without company owner")
+    void createCompanyWithoutCompanyOwner() {
+        step("Send post without company owner", () -> {
+            given()
+                    .filter(filters().withCustomTemplates())
+                    .body(JsonHelper.createJSONcreateCompany(company_name,
+                            company_type,
+                            firstCompanyUsers,
+                            secondCompanyUsers,
+                            ""))
+                    .when()
+                    .post("/tasks/rest/createcompany")
+                    .then()
+                    .statusCode(200)
+                    .log().body()
+                    .body("type", is("error"))
+                    .body("message", is("Пользователь не найден c email_owner "));
+        });
+    }
+
 
 }
